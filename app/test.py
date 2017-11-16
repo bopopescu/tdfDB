@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, Response, request, redirect, url_for
 import MySQLdb
 
 
@@ -22,16 +22,18 @@ def hello_world():
 
 	cur = db.cursor()
 
-	# Use all the SQL you like
 	cur.execute("SELECT * FROM tdf.cyclist LIMIT 10")
-
-	# print all the first cell of all the rows
-	#for row in cur.fetchall():
-	 #   print row[0]
-
-	#x = cur.fetchall()
-
+	
 	option_list = cur.fetchall()    
 
 
 	return render_template('index.html', option_list= option_list)
+
+
+
+
+@app.route("/forward/", methods=['POST'])
+def move_forward():
+    #Moving forward code
+    forward_message = "Moving Forward..."
+    return render_template('blog.html');

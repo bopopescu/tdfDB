@@ -12,10 +12,28 @@
         <option value="{{ o[0] }}" SELECTED>{{ o[0] }}</option>
     {% endfor %}
     </select>
-    </td>
-    <td>
-        <input class="button1" type="submit" value="Select">
-    </td>
+    <br>
+    <b> --------------------------------------------------- </b>
+    <br>
+    <select name="option" width="300px">
+        <option value= "Age" SELECTED> Age </option>
+        <option value= "Height" SELECTED> Height </option>
+        <option value= "Weight" SELECTED> Weight </option>
+    </select>
+    <br>
+    <b> --------------------------------------------------- </b>
+    <br>
+    <select name="option" width="300px">
+        <option value= "Nationality" SELECTED> Nationality </option>
+        <option value= "Team" SELECTED> Team </option>
+    </select>
+    <br>
+    <b> --------------------------------------------------- </b>
+    <br>
+    <form action="/forward/" method="post">
+        <button name="forwardBtn" type="submit"> Submit Query </button>
+    </form>
+    
     <div id="footer">
       <table border="1" cellpadding="5" cellspacing="5">
       {% for row in tableDat %}
