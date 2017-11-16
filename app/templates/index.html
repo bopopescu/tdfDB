@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+  <head>
+    {% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>{% block title %}{% endblock %} - My Webpage</title>
+    {% endblock %}
+  </head>
+  <body>
+    <select name="option" width="300px">
+    {% for o in option_list %}
+        <option value="{{ o[0] }}" SELECTED>{{ o[0] }}</option>
+    {% endfor %}
+    </select>
+    </td>
+    <td>
+        <input class="button1" type="submit" value="Select">
+    </td>
+    <div id="footer">
+      <table border="1" cellpadding="5" cellspacing="5">
+      {% for row in tableDat %}
+          <tr>
+          {% for d in row %}
+              <td>{{ d }}</td>
+          {% endfor %}
+          </tr>
+      {% endfor %}
+      </table>
+    </div>
+  </body>
+</html>
