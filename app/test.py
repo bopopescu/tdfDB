@@ -23,14 +23,90 @@ def hello_world():
 	cur = db.cursor()
 
 	fastest_stage = ''' SELECT stageNum, start, end, Distance, type FROM tdf.stages  '''
-
-	cur.execute(fastest_stage)
+	teams = ''' SELECT DISTINCT Team FROM tdf.cyclist '''
 	
-	option_list = cur.fetchall()    
+	cur.execute(fastest_stage)
+	ftl = cur.fetchall()	
+	
+	cur.execute(teams)
+	teams = cur.fetchall()
 
 
-	return render_template('blog-simple.html', option_list=option_list)
+	    
 
+
+	return render_template('blog-simple.html', ftl=ftl, teams=teams)
+
+
+
+@app.route("/fastest_time/", methods=["GET", "POST"])
+def get_fastest_time():
+
+	x = ""
+	if request.method == 'POST':
+		print "POST METHOD"
+		x = request.form.get("stage_option")
+		
+	elif request.method == "GET":
+		print "GET METHOD"
+	
+	
+	stageString = x
+
+	cur = db.cursor()
+	
+	query = """ SELECT s1.stageNum, s1.Type, s1.Distance, c1.Name, c2.stageTime as time_stage
+	from tdf.cyclist c1
+	left join tdf.competes c2 on c1.Name = c2.Name
+	left join tdf.stages s1 on c2.stageNum = s1.stageNum
+	where s1.stageNum = {0}
+	order by time_stage asc
+	limit 1 """.format(stageString)
+	cur.execute(query)
+
+	tableDat = cur.fetchall()
+	columns = [desc[0] for desc in cur.description]
+
+	print columns
+
+
+	return render_template('results_fastest.html', tableDat=tableDat, columns=columns)
+
+
+
+
+@app.route("/avgmax_time_team/", methods=["GET", "POST"])
+def average_time_team():
+
+	
+	
+	teamString = request.form.get("teams")
+	calcString = request.form.get("calcData")
+
+	cur = db.cursor()
+	
+	query = """ SELECT c2.stageNum as stageNums, s1.Type, s1.Distance, sec_to_time(round({1}(time_to_sec(stageTime)), 0)) as time
+	from tdf.cyclist c1
+	left join tdf.competes c2 on c1.Name = c2.Name
+	left join tdf.stages s1 on s1.stageNum = c2.stageNum
+	group by c2.stageNum, Team
+	having Team = '{0}'
+	order by stageNums asc, time asc """.format(teamString, calcString)
+	cur.execute(query)
+
+	tableDat = cur.fetchall()
+	columns = [desc[0] for desc in cur.description]
+
+	print columns
+
+
+	return render_template('results_fastest.html', tableDat=tableDat, columns=columns)
+
+
+
+
+
+'''
 
 
 @app.route("/forward/", methods=["GET", "POST"])
@@ -65,3 +141,4 @@ def move_forward():
 
 	return render_template('results.html', tableDat=tableDat, columns=columns)
 
+'''

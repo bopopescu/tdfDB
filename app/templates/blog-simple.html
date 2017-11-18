@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Foundation | Welcome</title>
     <link rel="stylesheet" href="http://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.min.css">
+
+
+ 
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   </head>
   <body>
     
@@ -35,10 +41,10 @@
         <br>
         <p> (Stage Number, Starting Location, Ending Location, Distance (km), Type)
 
-        <form action="/forward/" method="POST">
-            <select name="option" width="300px">
-            {% for o in option_list %}
-                <option value="Name" SELECTED>{{ o[0], o[1], o[2], o[3], o[4] }}</option>
+        <form action="/fastest_time/" method="POST">
+            <select name="stage_option" width="300px">
+            {% for o in ftl %}
+                <option value={{ o[0] }} SELECTED>{{ o[0], o[1], o[2], o[3], o[4] }}</option>
             {% endfor %}
             </select>
             <br>
@@ -73,9 +79,32 @@
       </div>
 
       <div class="blog-post">
-        <h3>Awesome blog post title <small>3/6/2015</small></h3>
-        <img class="thumbnail" src="http://placehold.it/850x350">
-        <p>Praesent id metus massa, ut blandit odio. Proin quis tortor orci. Etiam at risus et justo dignissim congue. Donec congue lacinia dui, a porttitor lectus condimentum laoreet. Nunc eu ullamcorper orci. Quisque eget odio ac lectus vestibulum faucibus eget in metus. In pellentesque faucibus vestibulum. Nulla at nulla justo, eget luctus.</p>
+       <h3>Team Performance</h3>
+        <br>
+        <p> (Stage Number, Starting Location, Ending Location, Distance (km), Type)
+
+        <form action="/avgmax_time_team/" method="POST">
+            <select name="teams" width="300px">
+                {% for t in teams %}
+                <option value={{ t[0] }} SELECTED>{{ t[0] }}</option>
+            {% endfor %}
+            </select>
+            <br>
+            <b> --------------------------------------------------- </b>
+            <br>
+            <select name="calcData" width="300px">
+                <option value= "min" SELECTED> Minimum </option>
+                <option value= "avg" SELECTED> Average </option>
+            </select>
+            <br>
+            <b> --------------------------------------------------- </b>
+            <br>
+                  
+
+
+             <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+        <p>Directions: Use the drop down menus to select the parameters for the query. </p>
         <div class="callout">
           <ul class="menu simple">
             <li><a href="#">Author: Mike Mikers</a></li>
