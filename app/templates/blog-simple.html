@@ -79,6 +79,51 @@
       </div>
 
       <div class="blog-post">
+        <h3>Country Performance</h3>
+        <br>
+        <p> (Stage Number, Starting Location, Ending Location, Distance (km), Type)
+
+        <form action="/fastest_time_country/" method="POST">
+            <select name="stage_option" width="300px">
+            {% for o in ftl %}
+                <option value={{ o[0] }} SELECTED>{{ o[0], o[1], o[2], o[3], o[4] }}</option>
+            {% endfor %}
+            </select>
+            <br>
+            <b> --------------------------------------------------- </b>
+            <br>
+            <select name="countries" width="300px">
+            {% for n in nation %}
+                <option value={{ n[0] }} SELECTED>{{ n[0] }}</option>
+            {% endfor %}
+            </select>
+            <br>
+            <b> --------------------------------------------------- </b>
+            <br>
+            <select name="calcData" width="300px">
+                <option value= "min" SELECTED> Minimum </option>
+                <option value= "avg" SELECTED> Average </option>
+            </select>
+            <br>
+            <b> --------------------------------------------------- </b>
+            <br>
+
+
+             <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+        <div class="callout">
+          <ul class="menu simple">
+            <li><a href="#">Author: Mike Mikers</a></li>
+            <li><a href="#">Comments: 3</a></li>
+          </ul>
+        </div>
+      </div>
+    
+
+
+
+
+      <div class="blog-post">
        <h3>Team Performance</h3>
         <br>
         <p> (Stage Number, Starting Location, Ending Location, Distance (km), Type)
@@ -114,9 +159,38 @@
       </div>
 
       <div class="blog-post">
-        <h3>Awesome blog post title <small>3/6/2015</small></h3>
-        <img class="thumbnail" src="http://placehold.it/850x350">
-        <p>Praesent id metus massa, ut blandit odio. Proin quis tortor orci. Etiam at risus et justo dignissim congue. Donec congue lacinia dui, a porttitor lectus condimentum laoreet. Nunc eu ullamcorper orci. Quisque eget odio ac lectus vestibulum faucibus eget in metus. In pellentesque faucibus vestibulum. Nulla at nulla justo, eget luctus.</p>
+        <h3>Finding Calories Consumed by winner</h3>
+        <br>
+        <p> (Stage Number, Starting Location, Ending Location, Distance (km), Type)
+
+        <form action="/calories_consumed/" method="POST">
+            <select name="stage_option" width="300px">
+            {% for o in ftl %}
+                <option value={{ o[0] }} SELECTED>{{ o[0], o[1], o[2], o[3], o[4] }}</option>
+            {% endfor %}
+            </select>
+            <br>
+            <b> --------------------------------------------------- </b>
+            <br>
+            <select name="biodata" width="300px">
+                <option value= "Age" SELECTED> Age </option>
+                <option value= "Height" SELECTED> Height </option>
+                <option value= "Weight" SELECTED> Weight </option>
+            </select>
+            <br>
+            <b> --------------------------------------------------- </b>
+            <br>
+            <select name="teamdata" width="300px">
+                <option value= "Nationality" SELECTED> Nationality </option>
+                <option value= "Team" SELECTED> Team </option>
+            </select>
+            <br>
+            <b> --------------------------------------------------- </b>
+            <br>
+
+
+             <button type="submit" class="btn btn-default">Submit</button>
+        </form>
         <div class="callout">
           <ul class="menu simple">
             <li><a href="#">Author: Mike Mikers</a></li>

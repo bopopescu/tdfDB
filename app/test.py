@@ -24,6 +24,7 @@ def hello_world():
 
 	fastest_stage = ''' SELECT stageNum, start, end, Distance, type FROM tdf.stages  '''
 	teams = ''' SELECT DISTINCT Team FROM tdf.cyclist '''
+	nation = ''' select distinct Nationality from tdf.cyclist'''
 	
 	cur.execute(fastest_stage)
 	ftl = cur.fetchall()	
@@ -31,16 +32,54 @@ def hello_world():
 	cur.execute(teams)
 	teams = cur.fetchall()
 
-
+	cur.execute(nation)
+	nation = cur.fetchall()
 	    
 
 
-	return render_template('blog-simple.html', ftl=ftl, teams=teams)
+	return render_template('blog-simple.html', ftl=ftl, teams=teams, nation=nation)
 
 
 
 @app.route("/fastest_time/", methods=["GET", "POST"])
 def get_fastest_time():
+
+	x = ""
+	if request.method == 'POST':
+		print "POST METHOD"
+		x = request.form.get("stage_option")
+		
+	elif request.method == "GET":
+		print "GET METHOD"
+	
+	
+	stageString = x
+
+	cur = db.cursor()
+	
+	query = """ SELECT s1.stageNum, s1.Type, s1.Distance, c1.Name, c2.stageTime as time_stage
+	from tdf.cyclist c1
+	left join tdf.competes c2 on c1.Name = c2.Name
+	left join tdf.stages s1 on c2.stageNum = s1.stageNum
+	where s1.stageNum = {0}
+	order by time_stage asc
+	limit 1 """.format(stageString)
+	cur.execute(query)
+
+	tableDat = cur.fetchall()
+	columns = [desc[0] for desc in cur.description]
+
+	print columns
+
+
+	return render_template('results_fastest.html', tableDat=tableDat, columns=columns)
+
+
+
+
+
+@app.route("/fastest_time_country/", methods=["GET", "POST"])
+def get_fastest_time_country():
 
 	x = ""
 	if request.method == 'POST':
@@ -101,6 +140,47 @@ def average_time_team():
 
 
 	return render_template('results_fastest.html', tableDat=tableDat, columns=columns)
+
+
+@app.route("/calories_consumed/", methods=["GET", "POST"])
+def calories_consumed():
+
+	
+	
+	x = ""
+	if request.method == 'POST':
+		print "POST METHOD"
+		x = request.form.get("stage_option")
+		
+	elif request.method == "GET":
+		print "GET METHOD"
+	
+	
+	stageString = x
+
+	cur = db.cursor()
+	
+	query = """ SELECT s1.stageNum, c1.Name, c2.stageTime as stageTime, f2.Calories
+	from tdf.cyclist c1
+		left join tdf.competes c2 on c1.Name = c2.Name
+		left join tdf.stages s1 on c2.stageNum = s1.stageNum
+	    left join tdf.consumes f1 on s1.stageNum = f1.stageNum
+	    left join tdf.foods f2 on f1.Name = f1.Name
+	where c2.stageNum = {0}
+	order by stageTime asc
+	limit 1 """.format(stageString)
+	cur.execute(query)
+
+	tableDat = cur.fetchall()
+	columns = [desc[0] for desc in cur.description]
+
+	print columns
+
+
+	return render_template('results_fastest.html', tableDat=tableDat, columns=columns)
+
+
+
 
 
 
