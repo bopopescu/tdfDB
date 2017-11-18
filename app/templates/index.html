@@ -7,30 +7,33 @@
     {% endblock %}
   </head>
   <body>
-    <select name="option" width="300px">
-    {% for o in option_list %}
-        <option value="{{ o[0] }}" SELECTED>{{ o[0] }}</option>
-    {% endfor %}
-    </select>
-    <br>
-    <b> --------------------------------------------------- </b>
-    <br>
-    <select name="option" width="300px">
-        <option value= "Age" SELECTED> Age </option>
-        <option value= "Height" SELECTED> Height </option>
-        <option value= "Weight" SELECTED> Weight </option>
-    </select>
-    <br>
-    <b> --------------------------------------------------- </b>
-    <br>
-    <select name="option" width="300px">
-        <option value= "Nationality" SELECTED> Nationality </option>
-        <option value= "Team" SELECTED> Team </option>
-    </select>
-    <br>
-    <b> --------------------------------------------------- </b>
-    <br>
-    <form action="/forward/" method="post">
+    
+    <form action="/forward/" method="POST">
+        <select name="option" width="300px">
+        {% for o in option_list %}
+            <option value="Name" SELECTED>{{ o[0] }}</option>
+        {% endfor %}
+        </select>
+        <br>
+        <b> --------------------------------------------------- </b>
+        <br>
+        <select name="biodata" width="300px">
+            <option value= "Age" SELECTED> Age </option>
+            <option value= "Height" SELECTED> Height </option>
+            <option value= "Weight" SELECTED> Weight </option>
+        </select>
+        <br>
+        <b> --------------------------------------------------- </b>
+        <br>
+        <select name="teamdata" width="300px">
+            <option value= "Nationality" SELECTED> Nationality </option>
+            <option value= "Team" SELECTED> Team </option>
+        </select>
+        <br>
+        <b> --------------------------------------------------- </b>
+        <br>
+
+
         <button name="forwardBtn" type="submit"> Submit Query </button>
     </form>
     
