@@ -32,11 +32,13 @@
     <div class="row medium-8 large-7 columns">
       <div class="blog-post">
         <h3>Finding the winners by stage</h3>
+        <br>
+        <p> (Stage Number, Starting Location, Ending Location, Distance (km), Type)
 
         <form action="/forward/" method="POST">
             <select name="option" width="300px">
             {% for o in option_list %}
-                <option value="Name" SELECTED>{{ o[0] }}</option>
+                <option value="Name" SELECTED>{{ o[0], o[1], o[2], o[3], o[4] }}</option>
             {% endfor %}
             </select>
             <br>
@@ -59,7 +61,7 @@
             <br>
 
 
-            <button name="forwardBtn" type="submit"> Submit Query </button>
+             <button type="submit" class="btn btn-default">Submit</button>
         </form>
         <p>Directions: Use the drop down menus to select the parameters for the query. </p>
         <div class="callout">

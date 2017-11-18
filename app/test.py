@@ -22,12 +22,14 @@ def hello_world():
 
 	cur = db.cursor()
 
-	cur.execute("SELECT * FROM tdf.cyclist LIMIT 10")
+	fastest_stage = ''' SELECT stageNum, start, end, Distance, type FROM tdf.stages  '''
+
+	cur.execute(fastest_stage)
 	
 	option_list = cur.fetchall()    
 
 
-	return render_template('blog-simple	.html', option_list=option_list)
+	return render_template('blog-simple.html', option_list=option_list)
 
 
 
