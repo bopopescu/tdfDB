@@ -41,6 +41,37 @@ def hello_world():
 
 
 
+@app.route('/patterns/')
+def patterns():
+
+	return render_template('patterns.html')
+
+
+@app.route('/patterns_bmc/', methods=["GET", "POST"])
+def patterns_bmc():
+
+
+	country = request.form.get("three_countries")
+	print country
+	cur = db.cursor()
+
+	query = """ SELECT *
+	from tdf.cyclist c1
+	where not exists
+		(select *
+		from tdf.cyclist c1 
+		where c1.team = 'BMC Racing' and c1.nationality = '{0}') """.format(country)
+	cur.execute(query)
+
+	
+	tableDat = cur.fetchall()
+	columns = [desc[0] for desc in cur.description]
+
+
+	return render_template('results_fastest.html', tableDat=tableDat, columns=columns)
+
+
+
 @app.route("/fastest_time/", methods=["GET", "POST"])
 def get_fastest_time():
 
@@ -69,7 +100,7 @@ def get_fastest_time():
 	tableDat = cur.fetchall()
 	columns = [desc[0] for desc in cur.description]
 
-	print columns
+	
 
 
 	return render_template('results_fastest.html', tableDat=tableDat, columns=columns)
@@ -160,7 +191,7 @@ def calories_consumed():
 
 	cur = db.cursor()
 	
-	query = """ SELECT s1.stageNum, c1.Name, c2.stageTime as stageTime, f2.Calories
+	query = """ SELECT s1.stageNum, c1.Name, c1.Team, c2.stageTime as stageTime, f2.Calories, f2.Carbohydrates, f2.Proteins, f2.Fats
 	from tdf.cyclist c1
 		left join tdf.competes c2 on c1.Name = c2.Name
 		left join tdf.stages s1 on c2.stageNum = s1.stageNum
@@ -168,7 +199,7 @@ def calories_consumed():
 	    left join tdf.foods f2 on f1.Name = f1.Name
 	where c2.stageNum = {0}
 	order by stageTime asc
-	limit 1 """.format(stageString)
+	limit 5 """.format(stageString)
 	cur.execute(query)
 
 	tableDat = cur.fetchall()
