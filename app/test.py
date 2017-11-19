@@ -72,6 +72,31 @@ def patterns_bmc():
 
 
 
+
+@app.route('/patterns_time_trial/', methods=["GET", "POST"])
+def patterns_time_trial():
+
+	cur = db.cursor()
+	
+	query = """ SELECT c1.Name, c1.stageNum, b1.manufacturer, b1.modelNum
+FROM tdf.competes c1
+left join tdf.bikes b1 on c1.modelNum = b1.modelNum
+left join tdf.stages s1 on c1.stageNum = s1.stageNum
+where not exists(
+	select b2.manufacturer, modelNum
+    from tdf.bikes b2, tdf.stages s2
+    where b2.bikeType = 'Time Trial' and s2.type = 'Time Trial') """
+	cur.execute(query)
+
+	
+	tableDat = cur.fetchall()
+	columns = [desc[0] for desc in cur.description]
+
+
+	return render_template('results_fastest.html', tableDat=tableDat, columns=columns)
+
+
+
 @app.route("/fastest_time/", methods=["GET", "POST"])
 def get_fastest_time():
 
