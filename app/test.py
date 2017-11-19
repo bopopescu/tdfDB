@@ -41,6 +41,23 @@ def hello_world():
 
 
 
+@app.route('/updates/')
+def updates():
+
+	cur = db.cursor()
+
+	names = ''' SELECT c1.Name 
+		FROM tdf.cyclist c1 
+		ORDER BY RAND()
+		 LIMIT 0,10; '''
+			
+	cur.execute(names)
+	cyclist_name = cur.fetchall()
+
+
+	return render_template('updates.html', cyclist_name=cyclist_name)
+
+
 @app.route('/patterns/')
 def patterns():
 

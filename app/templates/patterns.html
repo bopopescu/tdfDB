@@ -1,0 +1,98 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Foundation | Welcome</title>
+    <link rel="stylesheet" href="http://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.min.css">
+  </head>
+  <body>
+    
+    <!-- Start Top Bar -->
+    <div class="top-bar">
+      <div class="top-bar-left">
+        <ul class="menu">
+          <li class="menu-text">Tour de France Analytics</li>
+          <li><a href="/">Queries</a></li>
+          <li><a href="{{ url_for('patterns') }}">Patterns</a></li>
+          <li><a href="{{ url_for('updates') }}"> Updates </a></li>
+        </ul>
+      </div>
+    </div>
+    <!-- End Top Bar -->
+
+    <div class="callout large primary">
+      <div class="row column text-center">
+        <h1>Patterns in the data</h1>
+        <h2 class="subheader">Vineet Shenoy</h2>
+      </div>
+    </div>
+    
+    <!-- We can now combine rows and columns when there's only one column in that row -->
+    <div class="row medium-8 large-7 columns">
+      <div class="blog-post">
+        <h3>Testing patterns and seeing results</h3>
+        <br>
+        <p>  <b>First pattern: All cyclists from Austria, Belgium, or Bulgaria are on team BMC Racing </b> </p>
+
+        <p> Query: SELECT * <br>
+        FROM tdf.cyclist c1 <br>
+        WHERE NOT EXISTS <br>
+          (SELECT * <br>
+          FROM tdf.cyclist c1  <br>
+          WHERE c1.team = 'BMC Racing' AND c1.nationality = CHOOSE COUNTRY BELOW)  </p>
+        <form action="/patterns_bmc/" method="POST">
+            <select name="three_countries" width="300px">
+                <option value="Austria" SELECTED> Austria </option>
+                <option value="Belgium" SELECTED> Belgium </option>
+                <option value="Bulgaria" SELECTED> Bulgaria </option>
+            </select>     
+            
+             <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+        <p>Directions: Use the drop down menus to select the parameters for the query. </p>
+        </div>
+      </div>
+
+
+
+      <div class="row medium-8 large-7 columns">
+      <div class="blog-post">
+        <h3>Testing patterns and seeing results</h3>
+        <br>
+        <p>  <b>Second pattern: Only time trial bikes are used on a time trial stage </b> </p>
+
+        
+        <p> Query: SELECT c1.Name, c1.stageNum, b1.manufacturer, b1.modelNum <br>
+        FROM tdf.competes c1<br>
+        LEFT JOIN tdf.bikes b1 ON c1.modelNum = b1.modelNum<br>
+        LEFT JOIN tdf.stages s1 ON c1.stageNum = s1.stageNum<br>
+        WHERE NOT EXISTS(<br>
+          SELECT b2.manufacturer, modelNumv
+            FROM tdf.bikes b2, tdf.stages s2<br>
+            WHERE b2.bikeType = 'Time Trial' AND s2.type = 'Time Trial') </p>
+
+
+
+
+        <form action="/patterns_time_trial/" method="POST">
+            
+            
+             <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+        
+        </div>
+      </div>
+
+
+      
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="http://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>
+
+
+    
