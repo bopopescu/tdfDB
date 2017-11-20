@@ -1,28 +1,68 @@
 <!doctype html>
-<html>
+<html class="no-js" lang="en">
   <head>
-    {% block head %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <title>{% block title %}{% endblock %} - My Webpage</title>
-    {% endblock %}
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Foundation | Welcome</title>
+    <link rel="stylesheet" href="http://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.min.css">
   </head>
   <body>
-     
-    <div id="footer">
-      <table border="1" cellpadding="5" cellspacing="5">
-      <tr>
-      {% for n in range(0, columns|length) %}
-          <td> <b>{{ columns[n] }} </b></td>
-     {% endfor %}
-      </tr>
-      {% for row in tableDat %}
-          <tr>
-          {% for d in row %}
-              <td>{{ d }}</td>
-          {% endfor %}
-          </tr>
-      {% endfor %}
-      </table>
+    
+    <!-- Start Top Bar -->
+    <div class="top-bar">
+      <div class="top-bar-left">
+        <ul class="menu">
+          <li class="menu-text">Blog</li>
+          <li><a href="/">Queries</a></li>
+          <li><a href="{{ url_for('patterns') }}">Patterns</a></li>
+          <li><a href="{{ url_for('updates') }}"> Updates </a></li>
+        </ul>
+      </div>
     </div>
+    <!-- End Top Bar -->
+
+    <div class="callout large primary">
+      <div class="row column text-center">
+        <h1>Results</h1>
+        <h2 class="subheader">results</h2>
+      </div>
+    </div>
+    
+    <!-- We can now combine rows and columns when there's only one column in that row -->
+    <div class="row medium-8 large-7 columns">
+      <div class="blog-post">
+        <h3>Results</h3>
+        <br>
+        
+
+        <div id="footer">
+        <table border="1" cellpadding="5" cellspacing="5">
+        <tr>
+        {% for n in range(0, columns|length) %}
+            <td> <b>{{ columns[n] }} </b></td>
+       {% endfor %}
+        </tr>
+        {% for row in tableDat %}
+            <tr>
+            {% for d in row %}
+                <td>{{ d }}</td>
+            {% endfor %}
+            </tr>
+        {% endfor %}
+        </table>
+      </div>
+
+        
+
+     
+    
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="http://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
   </body>
 </html>
+
+
+    

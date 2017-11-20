@@ -44,7 +44,6 @@ def hello_world():
 def name_update():
 
 	oldName = request.form.get("oldName")
-	print oldName
 	newName = request.form.get("newName")
 	#print newName
 	cur = db.cursor()
