@@ -35,17 +35,28 @@
         <br>
         <p>  <b>First pattern: All cyclists from Austria, Belgium, or Bulgaria are on team BMC Racing </b> </p>
 
-       <form action="/fastest_time/" method="POST">
-            <select name="names" width="300px">
+       <form action="/name_update/" method="POST">
+            <select name="cyclist_names" width="300px">
             {% for o in cyclist_name %}
-                <option value={{ o[0] }} SELECTED>{{ o[0] }}</option>
+                <option value={{ 'o[0]' }} SELECTED>{{ o[0] }}</option>
             {% endfor %}
             </select>
+            
+            <b> Enter old name from drop-down menu into box below </b>
+            <br>
+            <input type="name" name="oldName" id="oldName" class="form-control" placeholder="Name" required autofocus>
+
             <br>
             <b> --------------------------------------------------- </b>
             <br>
-            
+            <br>
+            <b> Enter the new name to change to in the box below </b>
+            <br>
+             <input type="name" name="newName" id="newName" class="form-control" placeholder="Name" required autofocus>
 
+            <br>
+            <b> --------------------------------------------------- </b>
+            <br>
              <button type="submit" class="btn btn-default">Submit</button>
         </form>
         <p>Directions: Use the drop down menus to select the parameters for the query. </p>

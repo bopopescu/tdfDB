@@ -40,6 +40,56 @@ def hello_world():
 	return render_template('blog-simple.html', ftl=ftl, teams=teams, nation=nation)
 
 
+@app.route('/name_update/', methods=["GET", "POST"])
+def name_update():
+
+	oldName = request.form.get("oldName")
+	print oldName
+	newName = request.form.get("newName")
+	#print newName
+	cur = db.cursor()
+	
+
+	
+	
+	oldCyclist = ''' SELECT * FROM tdf.cyclist c1 WHERE c1.Name = '{0}' '''.format(oldName)
+	oldCompetes = ''' SELECT * FROM tdf.competes c1 WHERE c1.Name = '{0}' '''.format(oldName)
+		
+	cur.execute(oldCyclist)
+	t1 = cur.fetchall()	
+	c1 = [desc[0] for desc in cur.description]
+	
+	cur.execute(oldCompetes)
+	t2 = cur.fetchall()
+	c2 = [desc[0] for desc in cur.description]
+
+
+	query = '''  UPDATE tdf.cyclist c1
+	SET c1.Name = '{1}'
+	WHERE c1.Name = '{0}' '''.format(oldName, newName)
+
+	cur.execute(query)
+
+	#################################################################################
+ 	
+	newCyclist = ''' SELECT * FROM tdf.cyclist c1 WHERE c1.Name = '{0}' '''.format(newName)
+	newCompetes = ''' SELECT * FROM tdf.competes c1 WHERE c1.Name = '{0}' '''.format(newName)
+		
+	cur.execute(newCyclist)
+	t3 = cur.fetchall()	
+	c3 = [desc[0] for desc in cur.description]
+	
+	cur.execute(newCompetes)
+	t4 = cur.fetchall()
+	c4 = [desc[0] for desc in cur.description]
+	
+	
+
+
+	return render_template('multipleTable.html', t1=t1, c1=c1, t2=t2, c2=c2, t3=t3, c3=c3, t4=t4, c4=c4 )
+
+	
+
 
 @app.route('/updates/')
 def updates():
@@ -48,8 +98,7 @@ def updates():
 
 	names = ''' SELECT c1.Name 
 		FROM tdf.cyclist c1 
-		ORDER BY RAND()
-		 LIMIT 0,10; '''
+		LIMIT 10; '''
 			
 	cur.execute(names)
 	cyclist_name = cur.fetchall()

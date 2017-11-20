@@ -1,0 +1,104 @@
+<!doctype html>
+<html>
+  <head>
+    {% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>{% block title %}{% endblock %} - My Webpage</title>
+    {% endblock %}
+  </head>
+  <body>
+     
+    <div id="one">
+      <p> <b> First Table </b> </p>
+      <table border="1" cellpadding="5" cellspacing="5" style="display: inline-block">
+      <tr>
+      {% for n in range(0, c1|length) %}
+          <td> <b>{{ c1[n] }} </b></td>
+     {% endfor %}
+      </tr>
+      {% for row in t1 %}
+          <tr>
+          {% for d in row %}
+              <td>{{ d }}</td>
+          {% endfor %}
+          </tr>
+      {% endfor %}
+      </table>
+    </div>
+    <br>
+    
+    <p> -------------------------------------------------------------- </p>
+    
+    <br>
+
+    <div id="two">
+      <table border="1" cellpadding="5" cellspacing="5" >
+      <p> <b> Second Table </b> </p>
+      <tr>
+      {% for n in range(0, c2|length) %}
+          <td> <b>{{ c2[n] }} </b></td>
+     {% endfor %}
+      </tr>
+      {% for row in t2 %}
+          <tr>
+          {% for d in row %}
+              <td>{{ d }}</td>
+          {% endfor %}
+          </tr>
+      {% endfor %}
+      </table>
+    </div>
+
+     <br>
+    
+    <p> -------------------------------------------------------------- </p>
+    
+    <br>
+
+
+     <div id="three">
+      <p> <b> Updated First Table </b> </p>
+      <table border="1" cellpadding="5" cellspacing="5" >
+      <tr>
+      {% for n in range(0, c3|length) %}
+          <td> <b>{{ c3[n] }} </b></td>
+     {% endfor %}
+      </tr>
+      {% for row in t3 %}
+          <tr>
+          {% for d in row %}
+              <td>{{ d }}</td>
+          {% endfor %}
+          </tr>
+      {% endfor %}
+      </table>
+    </div>
+    
+    <br>
+    <p> -------------------------------------------------------------- </p>
+    
+    <br>
+
+    <div id="four">
+      <table border="1" cellpadding="5" cellspacing="5" >
+      <p> <b> Updated Second Table </b> </p>
+      <tr>
+      {% for n in range(0, c4|length) %}
+          <td> <b>{{ c4[n] }} </b></td>
+     {% endfor %}
+      </tr>
+      {% for row in t4 %}
+          <tr>
+          {% for d in row %}
+              <td>{{ d }}</td>
+          {% endfor %}
+          </tr>
+      {% endfor %}
+      </table>
+    </div>
+
+
+
+
+  </body>
+</html>
