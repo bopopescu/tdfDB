@@ -68,7 +68,10 @@ def name_update():
 	SET c1.Name = '{1}'
 	WHERE c1.Name = '{0}' '''.format(oldName, newName)
 
-	cur.execute(query)
+	try:
+		cur.execute(query)
+	except:
+		return "Invalid update"
 
 	#################################################################################
  	
