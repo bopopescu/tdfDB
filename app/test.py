@@ -25,6 +25,7 @@ def hello_world():
 	fastest_stage = ''' SELECT stageNum, start, end, Distance, type FROM tdf.stages  '''
 	teams = ''' SELECT DISTINCT Team FROM tdf.cyclist '''
 	nation = ''' select distinct Nationality from tdf.cyclist'''
+	manf = ''' SELECT DISTINCT BikeManf FROM tdf.cyclist  '''
 	
 	cur.execute(fastest_stage)
 	ftl = cur.fetchall()	
@@ -37,7 +38,7 @@ def hello_world():
 	    
 
 
-	return render_template('blog-simple.html', ftl=ftl, teams=teams, nation=nation)
+	return render_template('blog-simple.html', ftl=ftl, teams=teams, nation=nation, manf=manf)
 
 
 @app.route('/name_update/', methods=["GET", "POST"])
@@ -212,16 +213,70 @@ def get_fastest_time_country():
 	
 	
 	stageString = x
-
+	countries = request.form.get("countries")
 	cur = db.cursor()
 	
 	query = """ SELECT s1.stageNum, s1.Type, s1.Distance, c1.Name, c2.stageTime as time_stage
 	from tdf.cyclist c1
 	left join tdf.competes c2 on c1.Name = c2.Name
 	left join tdf.stages s1 on c2.stageNum = s1.stageNum
-	where s1.stageNum = {0}
+	where s1.stageNum = {0} and c1.Nationality = '{1}'
 	order by time_stage asc
-	limit 1 """.format(stageString)
+	limit 5 """.format(stageString, countries)
+	cur.execute(query)
+
+	tableDat = cur.fetchall()
+	columns = [desc[0] for desc in cur.description]
+
+	print columns
+
+
+	return render_template('results_fastest.html', tableDat=tableDat, columns=columns)
+
+
+@app.route("/avghw/", methods=["GET", "POST"])
+def averagehw():
+
+	
+	
+	teamString = request.form.get("teams")
+	
+
+	cur = db.cursor()
+	
+	query = """ SELECT c1.Nationality, round(avg(c1.height), 2) as avgHeight, round(avg(c1.weight), 2) as avgWeight
+	from tdf.cyclist c1
+	group by c1.Nationality
+	having c1.Nationality = "{0}"
+	order by avgHeight asc""".format(teamString)
+	cur.execute(query)
+
+	tableDat = cur.fetchall()
+	columns = [desc[0] for desc in cur.description]
+
+	print columns
+
+
+	return render_template('results_fastest.html', tableDat=tableDat, columns=columns)
+
+
+
+@app.route("/avgmanf/", methods=["GET", "POST"])
+def averageManf():
+
+	
+	
+	stageOption = request.form.get("stage_option")
+	calcData = request.form.get("calcData")
+
+	cur = db.cursor()
+	
+	query = """ SELECT distinct c1.BikeManf, sec_to_time(round({1}(time_to_sec(stageTime)), 0)) as calcTime
+	from (
+		select *
+	    from tdf.competes c2
+	    where c2.stageNum = {0}) as c1
+	group by c1.bikeManf""".format(stageOption, calcData)
 	cur.execute(query)
 
 	tableDat = cur.fetchall()
@@ -289,7 +344,7 @@ def calories_consumed():
 	    left join tdf.foods f2 on f1.Name = f1.Name
 	where c2.stageNum = {0}
 	order by stageTime asc
-	limit 5 """.format(stageString)
+	limit 1 """.format(stageString)
 	cur.execute(query)
 
 	tableDat = cur.fetchall()
