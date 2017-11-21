@@ -91,6 +91,58 @@ def name_update():
 
 	return render_template('multipleTable.html', t1=t1, c1=c1, t2=t2, c2=c2, t3=t3, c3=c3, t4=t4, c4=c4 )
 
+
+@app.route('/team_update/', methods=["GET", "POST"])
+def team_update():
+
+	oldName = request.form.get("oldName")
+	newCountry = request.form.get("newCountry")
+	newTeam = request.form.get("newTeam")
+	#print newName
+	cur = db.cursor()
+	
+
+	
+	
+	oldCyclist = ''' SELECT * FROM tdf.cyclist c1 WHERE c1.Name = '{0}' '''.format(oldName)
+	oldCompetes = ''' SELECT * FROM tdf.competes c1 WHERE c1.Name = '{0}' '''.format(oldName)
+		
+	cur.execute(oldCyclist)
+	t1 = cur.fetchall()	
+	c1 = [desc[0] for desc in cur.description]
+	
+	cur.execute(oldCompetes)
+	t2 = cur.fetchall()
+	c2 = [desc[0] for desc in cur.description]
+
+
+	query = '''  UPDATE tdf.cyclist c1
+	SET  c1.Nationality = '{1}', c1.Team = '{2}'
+	WHERE c1.Name = '{0}' '''.format(oldName, newCountry, newTeam)
+
+	try:
+		cur.execute(query)
+	except:
+		return "Invalid update"
+
+	#################################################################################
+ 	
+	newCyclist = ''' SELECT * FROM tdf.cyclist c1 WHERE c1.Name = '{0}' '''.format(oldName)
+	newCompetes = ''' SELECT * FROM tdf.competes c1 WHERE c1.Name = '{0}' '''.format(oldName)
+		
+	cur.execute(newCyclist)
+	t3 = cur.fetchall()	
+	c3 = [desc[0] for desc in cur.description]
+	
+	cur.execute(newCompetes)
+	t4 = cur.fetchall()
+	c4 = [desc[0] for desc in cur.description]
+	
+	
+
+
+	return render_template('multipleTable.html', t1=t1, c1=c1, t2=t2, c2=c2, t3=t3, c3=c3, t4=t4, c4=c4 )
+
 	
 
 
@@ -102,12 +154,23 @@ def updates():
 	names = ''' SELECT c1.Name 
 		FROM tdf.cyclist c1 
 		LIMIT 10; '''
+
+
+	teams = ''' SELECT DISTINCT Team FROM tdf.cyclist '''
+	nation = ''' select distinct Nationality from tdf.cyclist'''
 			
 	cur.execute(names)
 	cyclist_name = cur.fetchall()
 
 
-	return render_template('updates.html', cyclist_name=cyclist_name)
+	cur.execute(teams)
+	teams = cur.fetchall()
+
+	cur.execute(nation)
+	nation = cur.fetchall()
+
+
+	return render_template('updates.html', cyclist_name=cyclist_name, teams=teams, nation=nation)
 
 
 @app.route('/patterns/')

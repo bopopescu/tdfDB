@@ -33,7 +33,7 @@
       <div class="blog-post">
         <h3>Updating and checking contraints</h3>
         <br>
-        <p>  <b>First pattern: All cyclists from Austria, Belgium, or Bulgaria are on team BMC Racing </b> </p>
+        <p>  <b>First pattern (Foreign Key): All cyclists from Austria, Belgium, or Bulgaria are on team BMC Racing </b> </p>
 
        <form action="/name_update/" method="POST">
             <select name="cyclist_names" width="300px">
@@ -67,11 +67,60 @@
 
       <div class="row medium-8 large-7 columns">
       <div class="blog-post">
-        <h3>Testing patterns and seeing results</h3>
+        <h3>Enforcing functional Dependency </h3>
         <br>
-        <p>  <b>---------------------------------------------- </b> </p>
+        <p>  <b>All cyclists from Austria, Belgium, or Bulgaria are on team BMC Racing </b> 
+        <br>
+        Try updating the a record using one of the above countries and a team other than BMC racing. Error will be thrown
 
-        
+        </p>
+
+        <form action="/team_update/" method="POST">
+            <select name="cyclist_names" width="300px">
+            {% for o in cyclist_name %}
+                <option value={{ 'o[0]' }} SELECTED>{{ o[0] }}</option>
+            {% endfor %}
+            </select>
+            
+            <b> Enter old name from drop-down menu into box below </b>
+            <br>
+            <input type="name" name="oldName" id="oldName" class="form-control" placeholder="Name" required autofocus>
+
+            <br>
+            <b> --------------------------------------------------- </b>
+            <br>
+            <select name="cyclist_names" width="300px">
+            {% for o in nation %}
+                <option value={{ 'o[0]' }} SELECTED>{{ o[0] }}</option>
+            {% endfor %}
+            </select>
+            <br>
+            <b> Enter the new country  </b>
+            <br>
+
+
+
+
+             <input type="name" name="newCountry" id="newCountry" class="form-control" placeholder="Name" required autofocus>
+
+            <br>
+            <b> --------------------------------------------------- </b>
+            <br>
+            <select name="cyclist_names" width="300px">
+            {% for o in teams %}
+                <option value={{ 'o[0]' }} SELECTED>{{ o[0] }}</option>
+            {% endfor %}
+            </select>
+
+            <b> Enter the Team  </b>
+            <br>
+             <input type="name" name="newTeam" id="newTeam" class="form-control" placeholder="Name" required autofocus>
+
+            <br>
+            <b> --------------------------------------------------- </b>
+            <br>
+             <button type="submit" class="btn btn-default">Submit</button>
+        </form>
         
         </div>
       </div>
