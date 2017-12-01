@@ -33,8 +33,9 @@
       <div class="blog-post">
         <h3>Updating and checking contraints</h3>
         <br>
-        <p>  <b>First pattern (Foreign Key): All cyclists from Austria, Belgium, or Bulgaria are on team BMC Racing </b> </p>
-
+        <p>  <b>First pattern (Foreign Key): Updating a name will update in all tables </b> </p>
+        <p> Directions: Type in a name from the drop down menu. Enter a new name. Results will show
+        the two table updates </p>
        <form action="/name_update/" method="POST">
             <select name="cyclist_names" width="300px">
             {% for o in cyclist_name %}
@@ -59,7 +60,7 @@
             <br>
              <button type="submit" class="btn btn-default">Submit</button>
         </form>
-        <p>Directions: Use the drop down menus to select the parameters for the query. </p>
+        
         </div>
       </div>
 
@@ -71,16 +72,12 @@
         <br>
         <p>  <b>All cyclists from Austria, Belgium, or Bulgaria are on team BMC Racing </b> 
         <br>
-        Try updating the a record using one of the above countries and a team other than BMC racing. Error will be thrown
+         Directions: Enter the name "Alberto Nieve", "Austria", and "Sky". Update will be rejected
 
         </p>
 
         <form action="/team_update/" method="POST">
-            <select name="cyclist_names" width="300px">
-            {% for o in cyclist_name %}
-                <option value={{ 'o[0]' }} SELECTED>{{ o[0] }}</option>
-            {% endfor %}
-            </select>
+            
             
             <b> Enter old name from drop-down menu into box below </b>
             <br>
@@ -89,11 +86,7 @@
             <br>
             <b> --------------------------------------------------- </b>
             <br>
-            <select name="cyclist_names" width="300px">
-            {% for o in nation %}
-                <option value={{ 'o[0]' }} SELECTED>{{ o[0] }}</option>
-            {% endfor %}
-            </select>
+            
             <br>
             <b> Enter the new country  </b>
             <br>
@@ -106,11 +99,8 @@
             <br>
             <b> --------------------------------------------------- </b>
             <br>
-            <select name="cyclist_names" width="300px">
-            {% for o in teams %}
-                <option value={{ 'o[0]' }} SELECTED>{{ o[0] }}</option>
-            {% endfor %}
-            </select>
+            
+            
 
             <b> Enter the Team  </b>
             <br>
