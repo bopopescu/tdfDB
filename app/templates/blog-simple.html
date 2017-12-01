@@ -22,6 +22,7 @@
           <li><a href="#">Queries</a></li>
           <li><a href="{{ url_for('patterns') }}"> Patterns </a></li>
           <li><a href="{{ url_for('updates') }}"> Updates </a></li>
+          <li><a href="{{ url_for('ownsql') }}"> Any SQL </a></li>
         </ul>
       </div>
     </div>
@@ -203,6 +204,32 @@
             <br>
             <b> --------------------------------------------------- </b>
             <br>
+                  
+
+
+             <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+        <p>Directions: Use the drop down menus to select the parameters for the query. </p>
+      </p>
+      </div>
+
+
+      <div class="blog-post">
+       <h3>Average nutrients consumed by all who road Pinarello, by stage</h3>
+       <p>Directions: Select from the drop-down menu by stage. Click "Submit" when done </p>
+        <br>
+       
+
+        <form action="/manfconsume/" method="POST">
+            <select name="stage_option" width="300px">
+            {% for o in ftl %}
+                <option value={{ o[0] }} SELECTED>{{ o[0], o[1], o[2], o[3], o[4] }}</option>
+            {% endfor %}
+            </select>
+            <br>
+            <b> --------------------------------------------------- </b>
+            <br>
+            
                   
 
 

@@ -173,6 +173,14 @@ def updates():
 	return render_template('updates.html', cyclist_name=cyclist_name, teams=teams, nation=nation)
 
 
+
+@app.route('/ownsql/')
+def ownsql():
+
+	
+
+	return render_template('ownsql.html')
+
 @app.route('/patterns/')
 def patterns():
 
@@ -201,6 +209,25 @@ def patterns_bmc():
 
 
 	return render_template('results_fastest.html', tableDat=tableDat, columns=columns)
+
+
+@app.route('/ownsql_input/', methods=["GET", "POST"])
+def ownsql_input():
+
+
+	
+	cur = db.cursor()
+	query = request.form.get("txtArea")
+	
+	cur.execute(query)
+
+	
+	tableDat = cur.fetchall()
+	columns = [desc[0] for desc in cur.description]
+
+
+	return render_template('results_fastest.html', tableDat=tableDat, columns=columns)
+
 
 
 
@@ -354,6 +381,33 @@ def averageManf():
 	return render_template('results_fastest.html', tableDat=tableDat, columns=columns)
 
 
+@app.route("/manfconsume/", methods=["GET", "POST"])
+def manfconsume():
+
+	
+	
+	stageOption = request.form.get("stage_option")
+	
+
+	cur = db.cursor()
+	
+	query = """ SELECT result.stageNum, result.bikeManf, round(avg(result.Calories), 2) as avgCal, round(avg(result.Fats),2) as avgFat, round(avg(result.Proteins),2) as avgProtein
+from(select s1.stageNum, c2.bikeManf, f1.Calories, f1.Carbohydrates, f1.Proteins, f1.Fats
+	from tdf.stages s1
+	left join tdf.consumes c1 on s1.stageNum = c1.stageNum
+	left join tdf.foods f1 on f1.Food = c1.Food
+	left join tdf.competes c2 on c2.stageNum = s1.stageNum
+	where s1.stageNum = {0} and c2.bikeManf = 'Pinarello') as result
+group by result.BikeManf """.format(stageOption)
+	cur.execute(query)
+
+	tableDat = cur.fetchall()
+	columns = [desc[0] for desc in cur.description]
+
+	print columns
+
+
+	return render_template('results_fastest.html', tableDat=tableDat, columns=columns)
 
 
 @app.route("/avgmax_time_team/", methods=["GET", "POST"])
